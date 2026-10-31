@@ -1,0 +1,5 @@
+# 无第三方依赖。
+#
+# 合成走 ModelScope 创空间的 Gradio 队列协议，用 aiohttp 直接实现，
+# 不需要 gradio_client（清华镜像里没有这个包，而且它是同步阻塞实现）。
+# aiohttp 由 AstrBot 本体提供，这里不必重复声明。

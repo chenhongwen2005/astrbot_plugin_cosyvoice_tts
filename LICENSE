@@ -1,0 +1,35 @@
+MIT License
+
+Copyright (c) 2026 亓官浮尘 (chenhongwen2005)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+额外声明（非许可证条款，但请随代码一并保留）：
+
+1. 本插件不含任何模型权重，合成全部转发到 ModelScope 上的公开创空间
+   `iic/CosyVoice2-0.5B`。模型本身遵循其仓库声明的许可证（Apache-2.0），
+   使用前请自行确认上游条款；创空间的可用性、排队与配额由 ModelScope 决定，
+   与本插件作者无关。
+2. 参考音色请只使用你本人，或已获得明确授权的声音。用他人声音合成未授权的
+   内容可能侵犯声音权/人格权，也可能违反平台规则。请勿用于冒充、诈骗、伪造
+   证据或其他误导性用途。
+3. 合成结果请自行判断是否适合公开发布。涉及方言的转写与发音由模型决定，
+   不保证与真实方言一致。

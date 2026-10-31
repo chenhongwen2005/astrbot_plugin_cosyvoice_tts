@@ -1,0 +1,52 @@
+name: astrbot_plugin_cosyvoice_tts
+display_name: CosyVoice2 方言语音
+short_desc: 11 种方言的零样本语音合成，可上传参考音色，默认自然语言控制
+desc: >-
+  接 ModelScope 上的公开创空间 `iic/CosyVoice2-0.5B`，本机不需要显卡、不需要下载权重，
+  也不依赖 gradio_client——直接走 Gradio 的队列协议，纯 aiohttp 实现。
+
+
+  **音色**：把一段 3–10 秒的语音发给机器人，自动规整成 16kHz 以上单声道、必要时截到
+  30 秒，并用创空间自带的 SenseVoice 识别出参考文字。音色按会话保存，也可以一键设成
+  全局默认。
+
+
+  **方言**：默认走「自然语言控制」模式，靠一句 instruct 切口音，共 11 种——广东（粤语）、
+  闽南、四川、东北、陕西、山西、上海、天津、山东、宁夏、甘肃。每种方言带别名识别
+  （「粤语」「成都话」「兰州话」都能认）、示例台词与一句使用提示；还可以再叠一句自定义
+  指令（「语速慢一点」「语气凶一点」）。
+
+
+  **两种模式**：自然语言控制不需要参考文字，靠指令改口音与语气；3s 极速复刻严格按
+  参考音频复刻，需要参考文字与音频内容对上。默认前者。
+
+
+  **接进原生 TTS**：注册 `cosyvoice2_modelscope` Provider，在 WebUI 的服务提供商里选上，
+  再打开语音回复，机器人正常回复就自动变成方言语音，不必每次打字。
+
+
+  **说明**：合成走公开创空间，受对方的排队与配额影响，短句一般 3–10 秒。方言效果取决于
+  参考音频与模型本身，参考音说得越标准、句子越短，切换越稳。
+version: 1.0.0
+author: 亓官浮尘
+repo: https://github.com/chenhongwen2005/astrbot_plugin_cosyvoice_tts
+astrbot_version: ">=4.17.0"
+tags:
+  - 语音合成
+  - TTS
+  - 方言
+  - 音色复刻
+  - CosyVoice
+  - 粤语
+  - 四川话
+support_platforms:
+  - aiocqhttp
+  - qq_official
+  - telegram
+  - wecom
+  - lark
+  - dingtalk
+  - discord
+  - slack
+  - kook
+  - satori

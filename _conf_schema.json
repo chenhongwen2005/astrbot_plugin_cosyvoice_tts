@@ -1,0 +1,100 @@
+{
+  "commands_enabled": {
+    "description": "启用 /语音 指令",
+    "type": "bool",
+    "default": true,
+    "hint": "关掉之后只能通过原生 TTS Provider 出声，指令侧静默。"
+  },
+  "api_base": {
+    "description": "CosyVoice2 应用地址",
+    "type": "string",
+    "default": "https://iic-cosyvoice2-0-5b.ms.show/",
+    "hint": "ModelScope 创空间地址。改用自己部署的 Gradio 应用时填自己的地址，路径一致即可。"
+  },
+  "mode": {
+    "description": "默认推理模式",
+    "type": "string",
+    "default": "自然语言控制",
+    "options": [
+      "自然语言控制",
+      "3s极速复刻"
+    ],
+    "hint": "自然语言控制=靠 instruct 指令切方言与语气，不需要参考文字；3s极速复刻=严格按参考音频复刻，需要参考文字对上。",
+    "obvious_hint": true
+  },
+  "default_dialect": {
+    "description": "新会话的默认方言",
+    "type": "string",
+    "default": "",
+    "hint": "留空=不带方言（相当于标准话 + 参考音色）。可填：广东 / 闽南 / 四川 / 东北 / 陕西 / 山西 / 上海 / 天津 / 山东 / 宁夏 / 甘肃。每个会话可以用 /语音 方言 单独改。"
+  },
+  "default_instruct": {
+    "description": "默认附加指令",
+    "type": "string",
+    "default": "",
+    "hint": "会拼在方言指令后面，例如填「语速慢一点」得到「用四川话说这句话，语速慢一点。」留空即可。"
+  },
+  "auto_bind_voice": {
+    "description": "自动记住收到的语音作为参考音色",
+    "type": "bool",
+    "default": true,
+    "hint": "开启后，会话里还没有音色时，收到的第一条纯语音消息会被记成参考音色（附带自动识别参考文字），并顺手设为全局默认。"
+  },
+  "auto_rebind": {
+    "description": "已有音色时也接受新语音替换",
+    "type": "bool",
+    "default": false,
+    "hint": "默认关闭：已经设过音色之后，日常发的语音消息不会被当成「换音色」。需要换时先说 /语音 音色 换。"
+  },
+  "auto_recognize": {
+    "description": "自动识别参考音频的文字",
+    "type": "bool",
+    "default": true,
+    "hint": "用创空间自带的 SenseVoice 识别，约 1–3 秒。识别结果用于「3s极速复刻」模式，识别失败不影响自然语言控制。"
+  },
+  "register_provider": {
+    "description": "注册为 AstrBot 原生 TTS Provider",
+    "type": "bool",
+    "default": true,
+    "hint": "注册后 WebUI 的服务提供商里会出现「CosyVoice2 方言 TTS」，选上它并开启语音回复，机器人正常回复就会自动变成方言语音。"
+  },
+  "timeout": {
+    "description": "单次合成超时（秒）",
+    "type": "int",
+    "default": 180,
+    "slider": {
+      "min": 30,
+      "max": 600,
+      "step": 10
+    },
+    "hint": "创空间排队时首字延迟会拉长，短文本一般 3–10 秒。低于 60 容易误判超时。"
+  },
+  "concurrency": {
+    "description": "并发合成上限",
+    "type": "int",
+    "default": 2,
+    "slider": {
+      "min": 1,
+      "max": 6,
+      "step": 1
+    },
+    "hint": "公开创空间是共享队列，开太大只会一起排队。人多时保持 1–2。"
+  },
+  "retries": {
+    "description": "失败重试次数",
+    "type": "int",
+    "default": 2,
+    "slider": {
+      "min": 0,
+      "max": 5,
+      "step": 1
+    },
+    "hint": "排队满（503）或连接抖动时自动重试，指数退避。"
+  },
+  "debug": {
+    "description": "调试日志",
+    "type": "bool",
+    "default": false,
+    "hint": "打开后会在日志里打印上传路径、任务号等细节。"
+  }
+}
