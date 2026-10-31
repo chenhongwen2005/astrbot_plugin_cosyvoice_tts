@@ -17,7 +17,7 @@ from .const import (
 )
 from .dialects import DIALECTS, Dialect, build_instruct, resolve, table_lines
 from .store import DEFAULT_KEY, Prefs, Voice, VoiceStore, key_for
-from .text import split_text
+from .text import sanitize, split_text, strip_brackets, strip_emoji, tidy
 
 __all__ = [
     "CosyVoiceClient",
@@ -42,6 +42,10 @@ __all__ = [
     "normalize",
     "probe",
     "resolve",
+    "sanitize",
     "split_text",
+    "strip_brackets",
+    "strip_emoji",
     "table_lines",
+    "tidy",
 ]

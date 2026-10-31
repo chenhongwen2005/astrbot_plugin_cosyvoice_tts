@@ -34,6 +34,20 @@
     "default": "",
     "hint": "会拼在方言指令后面，例如填「语速慢一点」得到「用四川话说这句话，语速慢一点。」留空即可。"
   },
+  "strip_brackets": {
+    "description": "自动删掉括号及括号里的内容",
+    "type": "bool",
+    "default": true,
+    "hint": "「（小声）」「【旁白】」「(笑)」「[停顿]」这类舞台提示会在合成前连括号一起删掉，嵌套括号一并处理。书名号《》不受影响。未闭合的「（笑」也会整段丢掉；若括号后面还有很长的正文，则只删括号符号、正文保留。",
+    "obvious_hint": true
+  },
+  "strip_emoji": {
+    "description": "自动删掉表情符号",
+    "type": "bool",
+    "default": true,
+    "hint": "😊 ❤️ 👍 ✅ ⭐ 🎉 这类 emoji、变体选择符、零宽连接符、旗帜序列都会被删掉。箭头（→）与 ℃ ™ 这类有语义的符号保留。",
+    "obvious_hint": true
+  },
   "auto_bind_voice": {
     "description": "自动记住收到的语音作为参考音色",
     "type": "bool",

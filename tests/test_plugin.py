@@ -212,6 +212,30 @@ def main() -> int:
     check("长文本分多段", len(calls["synth"]) - before > 1, str(len(calls["synth"]) - before))
     check("长文本仍是一条消息", out and out[0][0] == "chain")
 
+    # --- 清洗：括号旁白与表情 ---
+    before = len(calls["synth"])
+    out = asyncio.run(run(plugin.cosy_cmd(ev("语音 （小声）😊今天天气不错。"))))
+    check("清洗后照常合成", out and out[0][0] == "chain", str(out)[:60])
+    sent = calls["synth"][-1]["text"] if len(calls["synth"]) > before else ""
+    check("括号与表情都删掉", sent == "今天天气不错。", repr(sent))
+
+    before = len(calls["synth"])
+    out = asyncio.run(run(plugin.cosy_cmd(ev("语音 （笑）😊"))))
+    check("清成空要提示而不是崩溃", out and "没有可念" in text_of(out[0]), text_of(out[0])[:70])
+    check("清成空不调接口", len(calls["synth"]) == before, str(len(calls["synth"]) - before))
+
+    plugin.config["strip_brackets"] = False
+    asyncio.run(run(plugin.cosy_cmd(ev("语音 （小声）走了。"))))
+    check("关掉括号开关就保留", "（小声）" in calls["synth"][-1]["text"],
+          repr(calls["synth"][-1]["text"]))
+    plugin.config["strip_brackets"] = True
+
+    plugin.config["strip_emoji"] = False
+    asyncio.run(run(plugin.cosy_cmd(ev("语音 走了😊"))))
+    check("关掉表情开关就保留", "😊" in calls["synth"][-1]["text"],
+          repr(calls["synth"][-1]["text"]))
+    plugin.config["strip_emoji"] = True
+
     # --- 音色信息与状态 ---
     out = asyncio.run(run(plugin.cosy_cmd(ev("语音 音色"))))
     check("音色信息", "【音色】" in text_of(out[0]) and "参考文字" in text_of(out[0]))

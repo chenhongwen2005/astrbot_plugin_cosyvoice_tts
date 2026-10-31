@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 #: ModelScope 上的 CosyVoice2 创空间页面（给人看的）
 STUDIO_PAGE = "https://www.modelscope.cn/studios/iic/CosyVoice2-0.5B"

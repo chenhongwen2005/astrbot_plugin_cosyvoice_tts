@@ -22,6 +22,7 @@ from typing import Any, Dict, Optional
 from .client import CosyVoiceClient
 from .const import DEFAULT_BASE, MODE_CLONE, MODE_INSTRUCT
 from .dialects import build_instruct, resolve
+from .text import sanitize
 
 #: 注册进 AstrBot 的类型名，配置里以它区分
 TYPE_NAME = "cosyvoice2_modelscope"
@@ -83,6 +84,14 @@ def _cleanup(directory: str, keep_seconds: float = 3600.0) -> None:
         pass
 
 
+def _flag(cfg: Dict[str, Any], key: str, default: bool = True) -> bool:
+    """provider 配置在 WebUI 里是手写 JSON，布尔可能被写成字符串。"""
+    value = cfg.get(key, default)
+    if isinstance(value, str):
+        return value.strip().lower() not in ("0", "false", "no", "off", "")
+    return bool(value)
+
+
 def default_config_tmpl() -> Dict[str, Any]:
     return {
         "id": TYPE_NAME,
@@ -97,6 +106,8 @@ def default_config_tmpl() -> Dict[str, Any]:
         "prompt_text": "",
         "mode": MODE_INSTRUCT,
         "timeout": 180,
+        "strip_brackets": True,
+        "strip_emoji": True,
     }
 
 
@@ -145,6 +156,13 @@ def register() -> bool:
                 dialect = resolve(self.dialect) if self.dialect else None
             except KeyError:
                 dialect = None
+            text = sanitize(
+                text,
+                brackets=_flag(self.cfg, "strip_brackets", True),
+                emoji=_flag(self.cfg, "strip_emoji", True),
+            )
+            if not text:
+                raise Exception("清洗后没有可念的内容了（括号旁白与表情都被删掉）。")
             mode = self.mode
             instruct = build_instruct(dialect, self.instruct_extra) if mode == MODE_INSTRUCT else ""
             prompt_text = self.prompt_text if mode == MODE_CLONE else ""

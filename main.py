@@ -56,6 +56,7 @@ from .cosyvoice import (
     key_for,
     normalize,
     resolve,
+    sanitize,
     split_text,
     table_lines,
 )
@@ -66,6 +67,11 @@ PLUGIN_NAME = "astrbot_plugin_cosyvoice_tts"
 NO_VOICE = (
     "还没有参考音频。先发一段 3–10 秒的**语音**给我（只发语音、别带文字），"
     "我会把音色记下来；发之前最好说一句完整的话。"
+)
+
+EMPTY_AFTER_CLEAN = (
+    "清洗后没有可念的内容了——括号旁的舞台提示和表情都删完就空了，"
+    "把要说的话直接写出来吧。"
 )
 
 HELP = """【CosyVoice2 方言语音】{voice_line}
@@ -188,10 +194,25 @@ class CosyVoicePlugin(Star):
     # ------------------------------------------------------------------
     # 合成
     # ------------------------------------------------------------------
+    def _clean(self, text: str) -> str:
+        """合成前的清洗：括号旁白与表情符号。两个开关都默认开。"""
+        raw = text or ""
+        cleaned = sanitize(
+            raw,
+            brackets=bool(self.config.get("strip_brackets", True)),
+            emoji=bool(self.config.get("strip_emoji", True)),
+        )
+        if cleaned != raw.strip() and self.config.get("debug"):
+            logger.info(f"[cosyvoice] 文本清洗：{raw.strip()!r} → {cleaned!r}")
+        return cleaned
+
     async def _synthesize(self, key: str, text: str, *, mode: str, instruct: str, prompt_text: str) -> bytes:
         voice = self._voice_of(key)
         if voice is None:
             raise CosyVoiceError(NO_VOICE)
+        text = self._clean(text)
+        if not text:
+            raise CosyVoiceError(EMPTY_AFTER_CLEAN)
         chunks = split_text(text)
         parts: List[bytes] = []
         for chunk in chunks:

@@ -27,7 +27,7 @@ desc: >-
 
   **说明**：合成走公开创空间，受对方的排队与配额影响，短句一般 3–10 秒。方言效果取决于
   参考音频与模型本身，参考音说得越标准、句子越短，切换越稳。
-version: 1.0.0
+version: 1.1.0
 author: 亓官浮尘
 repo: https://github.com/chenhongwen2005/astrbot_plugin_cosyvoice_tts
 astrbot_version: ">=4.17.0"

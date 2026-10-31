@@ -29,6 +29,7 @@ from cosyvoice import (  # noqa: E402
     normalize,
     probe,
     resolve,
+    sanitize,
     split_text,
     table_lines,
 )
@@ -56,7 +57,18 @@ def local_demo() -> None:
     ]:
         print(f"  {label:12s} → {build_instruct(d, extra) or '(空，等同纯音色复刻)'}")
 
-    section("3. 长文本怎么切")
+    section("3. 合成前会删掉什么")
+    for raw in [
+        "（轻轻叹气）你说得对。😔",
+        "他（小声（几乎听不见））说：走吧。",
+        "【旁白】她笑了（笑",
+        "今天不错😊，明天更好 👍",
+        "我读了《红楼梦》，他说「走吧」——然后走了……",
+    ]:
+        print(f"  {raw}")
+        print(f"    → {sanitize(raw)!r}")
+
+    section("4. 长文本怎么切")
     text = "今天天气不错，我们出去走走吧。顺便买点菜回来，晚上做火锅。" * 30
     parts = split_text(text)
     print(f"  原文 {len(text)} 字 → {len(parts)} 段：" + "、".join(str(len(p)) for p in parts))
